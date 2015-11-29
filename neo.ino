@@ -27,11 +27,13 @@ int bright = 7;    //select 1 thru 10
 
 
 void setup() {
+
       // This is for Trinket 5V 16MHz, you can remove these three lines if you are not using a Trinket
 #if defined (__AVR_ATtiny85__)
   if (F_CPU == 16000000) clock_prescale_set(clock_div_1);
 #endif
-  pinMode(BUTTON_PIN, INPUT_PULLUP);
+
+  pinMode(BUTTON_PIN, INPUT);
   strip.begin();
   strip.show(); // Initialize all pixels to 'off'
 }
@@ -48,41 +50,42 @@ void loop() {
     newState = digitalRead(BUTTON_PIN);
     if (newState == LOW) {
       showType++;
-      if (showType > 4) // Be sure to update with same number of options in case statement below.	
+      if (showType > 4) // Be sure to update with same number of shows.
         showType=0;
-      startShow(showType);
     }
   }
 
   // Set the last button state to the old state.
   oldState = newState;
+
+  if(showType == 0){
+    colorWipe(strip.Color(0, 0, 0), 1);    // Black/off
+  }
+  if(showType == 1){
+    xmasRandom();
+  }
+  if(showType == 2){
+    whiteTwinkle();
+  }
+  if(showType == 3){
+      wipeRG();
+  }
+  if(showType == 4){
+      chaseRG();
+  }
+
 }
 
-void startShow(int i) {
-  switch(i){
-    case 0: colorWipe(strip.Color(0, 0, 0), 50);    // Black/off
-            break;
-    case 1: colorWipe(strip.Color(255, 0, 0), 50);  // Red
-            break;
-    case 2: colorWipe(strip.Color(0, 255, 0), 50);  // Green
-            break;
-    case 3: colorWipe(strip.Color(0, 0, 255), 50);  // Blue
-            break;
-    case 4: xmasRandom(); // Random color flash
-    		    break;
-    //case 4: theaterChase(strip.Color(127, 127, 127), 50); // White
-    //        break;
-    //case 5: theaterChase(strip.Color(127,   0,   0), 50); // Red
-    //        break;
-    //case 6: theaterChase(strip.Color(  0,   0, 127), 50); // Blue
-    //        break;
-    //case 7: rainbow(20);
-    //        break;
-    //case 8: rainbowCycle(20);
-    //        break;
-    //case 9: theaterChaseRainbow(50);
-    //        break;
-  }
+void wipeRG(){
+  colorWipe(strip.Color(255, 0, 0), 50);
+  delay(50);
+  colorWipe(strip.Color(0, 255, 0), 50);
+  delay(50);
+}
+
+void chaseRG(){
+  colorChase(strip.Color(255,0,0), 25);    //  RED
+  colorChase(strip.Color(0,255,0), 25);    // GREEN
 }
 
 // Fill the dots one after the other with a color
@@ -96,7 +99,7 @@ void colorWipe(uint32_t c, uint8_t wait) {
 
 void xmasRandom() {
  for(int i=0; i<strip.numPixels(); i++) {
-    int wait = .20 ;  
+    int wait = .20;  
     int randr = random(0,(25*bright));
     int randg = random(0,(25*bright)); 
     int randb = random(0,(25*bright));
@@ -112,4 +115,42 @@ void xmasRandom() {
       //strip.show();
       delay(wait);   
 	}
+}
+
+void whiteTwinkle() {
+    for(int i=0; i<strip.numPixels(); i++) {
+    int wait = .20;
+    int randr = random(0,(25*bright));
+    int randg = random(0,(25*bright)); 
+    int randb = random(0,(25*bright));
+    int randi = random(1,strip.numPixels());
+    int randii = random(1,strip.numPixels());
+      strip.setPixelColor(randi, randr, randr, randr);
+     // strip.setPixelColor(i-1, strip.Color(r,g,(b-150)));
+     // strip.setPixelColor(i-2, strip.Color(r,g,(b-200)));
+    // strip.setPixelColor(i-3, strip.Color(r,g,(b-250))); // add more of these lines to make the trail longer
+      strip.show();
+      delay(1);
+      strip.setPixelColor(i, strip.Color(0,0,0)); // make sure the i-number is the amount of the trail
+      strip.show();
+      delay(wait);   
+  }
+}
+
+// Chase one dot down the full strip.  Good for testing purposes.
+void colorChase(uint32_t c, uint8_t wait) {
+  int i;
+  
+  // Start by turning all pixels off:
+  for(i=0; i<strip.numPixels(); i++) strip.setPixelColor(i, 0);
+
+  // Then display one pixel at a time:
+  for(i=0; i<strip.numPixels(); i++) {
+    strip.setPixelColor(i, c); // Set new pixel 'on'
+    strip.show();              // Refresh LED states
+    strip.setPixelColor(i, 0); // Erase pixel, but don't refresh!
+    delay(wait);
+  }
+
+  strip.show(); // Refresh to turn off last pixel
 }
