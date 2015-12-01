@@ -164,6 +164,8 @@ Placement</text>
 <text x="2.032" y="18.288" size="1.27" layer="21" rot="R90">NeoPixel Contoller</text>
 <text x="4.064" y="26.67" size="1.27" layer="21" rot="R90">Ver. 1</text>
 <text x="3.81" y="18.288" size="0.762" layer="21" rot="R90">Justin Lewsader</text>
+<dimension x1="0" y1="-0.508" x2="24.892" y2="-0.508" x3="12.446" y3="-2.032" textsize="0.762" layer="150" unit="inch"/>
+<dimension x1="0" y1="-0.508" x2="0" y2="33.782" x3="-2.032" y3="16.637" textsize="0.762" layer="150" unit="inch"/>
 </plain>
 <libraries>
 <library name="SparkFun-Capacitors">
