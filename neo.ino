@@ -77,15 +77,15 @@ void loop() {
 }
 
 void wipeRG(){
-  colorWipe(strip.Color(255, 0, 0), 50);
-  delay(50);
-  colorWipe(strip.Color(0, 255, 0), 50);
-  delay(50);
+  colorWipe(strip.Color(255, 0, 0), 25);
+  delay(25);
+  colorWipe(strip.Color(0, 255, 0), 25);
+  delay(25);
 }
 
 void chaseRG(){
-  colorChase(strip.Color(255,0,0), 25);    //  RED
-  colorChase(strip.Color(0,255,0), 25);    // GREEN
+  colorChase(strip.Color(255,0,0), 10);    //  RED
+  colorChase(strip.Color(0,255,0), 10);    // GREEN
 }
 
 // Fill the dots one after the other with a color
