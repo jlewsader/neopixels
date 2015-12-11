@@ -41,19 +41,11 @@ void setup() {
 void loop() {
   // Get current button state.
   bool newState = digitalRead(BUTTON_PIN);
-
-  // Check if state changed from high to low (button press).
-  if (newState == LOW && oldState == HIGH) {
-    // Short delay to debounce button.
-    delay(20);
-    // Check if button is still low after debounce.
-    newState = digitalRead(BUTTON_PIN);
     if (newState == LOW) {
       showType++;
       if (showType > 4) // Be sure to update with same number of shows.
         showType=0;
     }
-  }
 
   // Set the last button state to the old state.
   oldState = newState;
