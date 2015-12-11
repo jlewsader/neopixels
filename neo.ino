@@ -118,8 +118,8 @@ void whiteTwinkle() {
     int randi = random(1,strip.numPixels());
     int randii = random(1,strip.numPixels());
       strip.setPixelColor(randi, randr, randr, randr);
-     // strip.setPixelColor(i-1, strip.Color(r,g,(b-150)));
-     // strip.setPixelColor(i-2, strip.Color(r,g,(b-200)));
+      strip.setPixelColor(i-1, strip.Color(randr,randr,(randr-150)));
+     //strip.setPixelColor(i-2, strip.Color(randr,randr,(randr-200)));
     // strip.setPixelColor(i-3, strip.Color(r,g,(b-250))); // add more of these lines to make the trail longer
       strip.show();
       delay(1);
